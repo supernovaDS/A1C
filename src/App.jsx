@@ -9,6 +9,18 @@ import MergePdf from './components/tools/MergePdf';
 import CompressPdf from './components/tools/CompressPdf';
 import SplitPdf from './components/tools/SplitPdf';
 import RotatePdf from './components/tools/RotatePdf';
+import ProtectPdf from './components/tools/ProtectPdf';
+import UnlockPdf from './components/tools/UnlockPdf';
+import WatermarkPdf from './components/tools/WatermarkPdf';
+import PptToPdf from './components/tools/PptToPdf';
+import ExcelToPdf from './components/tools/XlsToPdf';
+import ImageConverter from './components/tools/ImageConverter';
+import DocumentAi from './components/tools/DocumentAi';
+
+
+
+
+
 
 function App() {
   return (
@@ -25,6 +37,13 @@ function App() {
           <Route path="/compress-pdf" element={<CompressPdf />} />
           <Route path="/split-pdf" element={<SplitPdf />} />
           <Route path="/rotate-pdf" element={<RotatePdf />} />
+          <Route path="/protect-pdf" element={<ProtectPdf />} />
+          <Route path="/unlock-pdf" element={<UnlockPdf />} />
+          <Route path="/watermark-pdf" element={<WatermarkPdf />} />
+          <Route path="/ppt-to-pdf" element={<PptToPdf />} />
+          <Route path="/excel-to-pdf" element={<ExcelToPdf />} />
+          <Route path="/image-converter" element={<ImageConverter />} />
+          <Route path="/document-ai" element={<DocumentAi />} />
         </Routes>
       </main>
     </div>

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
+    "@pdfsmaller/pdf-encrypt-lite": "^1.0.2",
     "@tailwindcss/vite": "^4.2.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",

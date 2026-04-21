@@ -9,6 +9,12 @@ import {
   Minimize2,
   Scissors,
   RotateCw,
+  Lock,
+  Unlock,
+  Stamp,
+  Presentation,
+  FileSpreadsheet,
+  BrainCircuit,
 } from "lucide-react";
 
 export default function Home() {
@@ -77,6 +83,69 @@ export default function Home() {
       path: "/rotate-pdf",
       badge: "Local Fast",
       badgeColor: "bg-green-100 text-green-700",
+    },
+    {
+      title: "Protect PDF",
+      description:
+        "Secure your document with a strong password. All encryption happens locally in your browser.",
+      icon: <Lock className="w-8 h-8 text-red-500" />,
+      path: "/protect-pdf",
+      badge: "Local Secure",
+      badgeColor: "bg-red-100 text-red-700",
+    },
+    {
+      title: "Unlock PDF",
+      description:
+        "Permanently remove password security and restrictions from your PDFs securely in your browser.",
+      icon: <Unlock className="w-8 h-8 text-green-500" />,
+      path: "/unlock-pdf",
+      badge: "API Secure",
+      badgeColor: "bg-pink-100 text-pink-600", // Using red to signify security tool, or you can use green
+    },
+    {
+      title: "Watermark PDF",
+      description:
+        "Stamp text across your document pages to mark them as confidential, draft, or approved.",
+      icon: <Stamp className="w-8 h-8 text-purple-500" />,
+      path: "/watermark-pdf",
+      badge: "Local Fast",
+      badgeColor: "bg-green-100 text-green-700",
+    },
+    {
+      title: "PPT to PDF",
+      description:
+        "Convert PowerPoint presentations (.ppt, .pptx) into universally readable PDF slides instantly.",
+      icon: <Presentation className="w-8 h-8 text-orange-600" />,
+      path: "/ppt-to-pdf",
+      badge: "API Powered",
+      badgeColor: "bg-purple-100 text-purple-700",
+    },
+    {
+      title: "Excel to PDF",
+      description:
+        "Convert Excel spreadsheets (.xls, .xlsx) into clean, easy-to-read PDF documents.",
+      icon: <FileSpreadsheet className="w-8 h-8 text-green-600" />,
+      path: "/excel-to-pdf",
+      badge: "API Powered",
+      badgeColor: "bg-purple-100 text-purple-700",
+    },
+    {
+      title: "Image Converter",
+      description:
+        "Quickly convert between JPG, PNG, and WEBP formats natively in your browser.",
+      icon: <ImageIcon className="w-8 h-8 text-pink-500" />,
+      path: "/image-converter",
+      badge: "Local Fast",
+      badgeColor: "bg-green-100 text-green-700",
+    },
+    {
+      title: "Document Intelligence",
+      description:
+        "Use advanced AI to instantly extract text (OCR) from images or generate smart summaries of complex PDFs.",
+      icon: <BrainCircuit className="w-8 h-8 text-indigo-500" />,
+      path: "/document-ai",
+      badge: "Smart Tool",
+      badgeColor: "bg-indigo-100 text-indigo-700",
     },
   ];
 
