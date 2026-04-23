@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
-import { Minimize2, Download, Loader2, AlertTriangle, ArrowDown, Settings } from 'lucide-react';
+import { Minimize2, Download, Loader2, AlertTriangle, ArrowDown, Settings, FileText } from 'lucide-react';
 
 export default function CompressPdf() {
   const [file, setFile] = useState(null);
@@ -78,6 +78,17 @@ export default function CompressPdf() {
           
           {file && (
             <div className="mt-8 space-y-6">
+              {/* File Info */}
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <FileText className="w-5 h-5 text-orange-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-800 truncate">{file.name}</p>
+                  <p className="text-sm text-gray-500">Original size: <span className="font-semibold text-gray-700">{formatSize(file.size)}</span></p>
+                </div>
+              </div>
+
               <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-semibold text-gray-700 flex items-center gap-2">

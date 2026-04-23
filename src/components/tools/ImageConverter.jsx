@@ -1,99 +1,130 @@
 import React, { useState } from 'react';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 import FileUploader from '../shared/FileUploader';
-import { ImageIcon, Download, Loader2, AlertTriangle, Settings, ArrowRight } from 'lucide-react';
+import { ImageIcon, Download, Loader2, AlertTriangle, Settings, ArrowRight, X, FileArchive, Info } from 'lucide-react';
 
 export default function ImageConverter() {
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [targetFormat, setTargetFormat] = useState('image/webp');
-  const [quality, setQuality] = useState(0.8); // 80% quality default
+  const [quality, setQuality] = useState(0.8);
   
   const [isConverting, setIsConverting] = useState(false);
-  const [result, setResult] = useState(null); // { url, name, newSize }
+  const [progress, setProgress] = useState(0);
+  const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
 
-  const handleFileSelect = (files) => {
-    setFile(files[0]);
-    setResult(null);
+  const handleFileSelect = (newFiles) => {
+    setFiles(prev => [...prev, ...newFiles]);
+    setResults([]);
     setError(null);
   };
 
-  const convertImage = () => {
-    if (!file) return;
-    setIsConverting(true);
-    setError(null);
+  const removeFile = (index) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
 
-    try {
+  const convertSingleImage = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       
       reader.onload = (event) => {
         const img = new Image();
         img.onload = () => {
-          // Create a canvas matching the image dimensions
           const canvas = document.createElement('canvas');
           canvas.width = img.width;
           canvas.height = img.height;
           const ctx = canvas.getContext('2d');
 
-          // If converting to JPG, fill a white background first to prevent transparent areas turning black
           if (targetFormat === 'image/jpeg') {
             ctx.fillStyle = '#FFFFFF';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
           }
 
-          // Draw the original image onto the canvas
           ctx.drawImage(img, 0, 0);
 
-          // Export the canvas to the new format
           canvas.toBlob(
             (blob) => {
               if (!blob) {
-                setError("Conversion failed. The image might be too large.");
-                setIsConverting(false);
+                reject(new Error(`Failed to convert ${file.name}`));
                 return;
               }
               
               const url = URL.createObjectURL(blob);
-              
-              // Generate the new filename (e.g., photo.png -> photo.webp)
               const originalName = file.name.split('.')[0];
               const ext = targetFormat.split('/')[1]; 
               const newFileName = `${originalName}.${ext}`;
 
-              setResult({
+              resolve({
                 url,
                 name: newFileName,
-                newSize: blob.size
+                originalName: file.name,
+                originalSize: file.size,
+                newSize: blob.size,
+                blob
               });
-              setIsConverting(false);
             },
             targetFormat,
-            targetFormat === 'image/png' ? undefined : quality // PNG doesn't use lossy quality
+            targetFormat === 'image/png' ? undefined : quality
           );
         };
-        img.onerror = () => {
-          setError("Failed to load the image. It might be corrupted.");
-          setIsConverting(false);
-        };
+        img.onerror = () => reject(new Error(`Failed to load ${file.name}`));
         img.src = event.target.result;
       };
       
-      reader.onerror = () => {
-        setError("Failed to read the file.");
-        setIsConverting(false);
-      };
-
+      reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
       reader.readAsDataURL(file);
+    });
+  };
+
+  const convertAll = async () => {
+    if (files.length === 0) return;
+    setIsConverting(true);
+    setError(null);
+    setProgress(0);
+
+    try {
+      const convertedResults = [];
+      for (let i = 0; i < files.length; i++) {
+        const result = await convertSingleImage(files[i]);
+        convertedResults.push(result);
+        setProgress(Math.round(((i + 1) / files.length) * 100));
+      }
+      setResults(convertedResults);
     } catch (err) {
       console.error(err);
-      setError("An unexpected error occurred.");
+      setError(err.message || "An unexpected error occurred.");
+    } finally {
       setIsConverting(false);
     }
   };
 
+  const downloadAll = async () => {
+    if (results.length === 1) {
+      // Single file: download directly
+      const a = document.createElement('a');
+      a.href = results[0].url;
+      a.download = results[0].name;
+      a.click();
+      return;
+    }
+
+    const zip = new JSZip();
+    for (const result of results) {
+      const response = await fetch(result.url);
+      const blob = await response.blob();
+      zip.file(result.name, blob);
+    }
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    saveAs(zipBlob, 'converted_images.zip');
+  };
+
   const resetTool = () => {
-    setFile(null);
-    setResult(null);
+    results.forEach(r => URL.revokeObjectURL(r.url));
+    setFiles([]);
+    setResults([]);
     setError(null);
+    setProgress(0);
   };
 
   const formatSize = (bytes) => {
@@ -102,8 +133,16 @@ export default function ImageConverter() {
     return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   };
 
+  const getEstimatedSize = (fileSize) => {
+    if (targetFormat === 'image/png') return 'Lossless — varies';
+    return '~' + formatSize(fileSize * quality);
+  };
+
+  const totalOriginalSize = files.reduce((acc, f) => acc + f.size, 0);
+  const totalNewSize = results.reduce((acc, r) => acc + r.newSize, 0);
+
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div className="max-w-3xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <ImageIcon className="text-pink-500" /> Image Converter
       </h2>
@@ -115,28 +154,48 @@ export default function ImageConverter() {
         </div>
       )}
 
-      {!result ? (
+      {results.length === 0 ? (
         <>
           <FileUploader 
             onFilesSelected={handleFileSelect} 
             accept={{ 'image/jpeg': ['.jpg', '.jpeg'], 'image/png': ['.png'], 'image/webp': ['.webp'] }} 
-            maxFiles={1}
+            maxFiles={50}
           />
           
-          {file && (
+          {files.length > 0 && (
             <div className="mt-8 space-y-6">
               
+              {/* File List */}
+              <div className="border border-gray-200 rounded-xl overflow-hidden">
+                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                  <span className="text-sm font-semibold text-gray-700">{files.length} file{files.length !== 1 ? 's' : ''} selected</span>
+                  <span className="text-sm text-gray-500">Total: {formatSize(totalOriginalSize)}</span>
+                </div>
+                <div className="max-h-64 overflow-y-auto divide-y divide-gray-100">
+                  {files.map((file, index) => (
+                    <div key={index} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-800 truncate">{file.name}</p>
+                        <div className="flex items-center gap-3 mt-0.5">
+                          <span className="text-xs text-gray-500">{formatSize(file.size)}</span>
+                          <ArrowRight className="w-3 h-3 text-gray-400" />
+                          <span className="text-xs text-pink-600 font-medium">{getEstimatedSize(file.size)}</span>
+                        </div>
+                      </div>
+                      <button 
+                        onClick={() => removeFile(index)}
+                        className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Settings Panel */}
               <div className="p-5 border border-gray-200 rounded-xl bg-gray-50 space-y-6">
-                
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-gray-700 truncate mr-4">{file.name}</span>
-                  <span className="text-sm font-bold text-gray-500 bg-white px-3 py-1 rounded-md border">
-                    {formatSize(file.size)}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-gray-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Convert To
@@ -168,49 +227,95 @@ export default function ImageConverter() {
                     </div>
                   )}
                 </div>
+
+                {targetFormat !== 'image/png' && (
+                  <div className="flex items-start gap-2 p-3 bg-pink-50 rounded-lg border border-pink-100">
+                    <Info className="w-4 h-4 text-pink-500 shrink-0 mt-0.5" />
+                    <p className="text-xs text-pink-700">
+                      Estimated total output: <strong>{formatSize(totalOriginalSize * quality)}</strong> (actual size may vary based on image content)
+                    </p>
+                  </div>
+                )}
               </div>
 
+              {/* Convert Button */}
               <button 
-                onClick={convertImage}
+                onClick={convertAll}
                 disabled={isConverting}
                 className="w-full bg-pink-600 hover:bg-pink-700 text-white px-6 py-3.5 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
               >
-                {isConverting ? <Loader2 className="animate-spin w-6 h-6" /> : 'Convert Image Now'}
+                {isConverting ? (
+                  <>
+                    <Loader2 className="animate-spin w-6 h-6" />
+                    Converting... {progress}%
+                  </>
+                ) : (
+                  `Convert ${files.length} Image${files.length !== 1 ? 's' : ''}`
+                )}
               </button>
+
+              {isConverting && (
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-pink-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              )}
             </div>
           )}
         </>
       ) : (
-        <div className="text-center py-10 px-4 bg-pink-50 rounded-xl border border-pink-200">
-          <h3 className="text-2xl font-bold text-pink-700 mb-6">Conversion Complete!</h3>
+        <div className="space-y-6">
+          <div className="text-center py-6 px-4 bg-pink-50 rounded-xl border border-pink-200">
+            <h3 className="text-2xl font-bold text-pink-700 mb-2">Conversion Complete!</h3>
+            <p className="text-pink-600">
+              {results.length} image{results.length !== 1 ? 's' : ''} converted — Total: {formatSize(totalOriginalSize)} → <strong>{formatSize(totalNewSize)}</strong>
+            </p>
+          </div>
           
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="text-right">
-              <p className="text-sm text-gray-500">Original</p>
-              <p className="font-semibold text-gray-700">{formatSize(file.size)}</p>
-            </div>
-            <ArrowRight className="text-pink-400 w-6 h-6" />
-            <div className="text-left">
-              <p className="text-sm text-gray-500">New Size</p>
-              <p className={`font-bold ${result.newSize < file.size ? 'text-green-600' : 'text-orange-500'}`}>
-                {formatSize(result.newSize)}
-              </p>
+          {/* Results Table */}
+          <div className="border border-gray-200 rounded-xl overflow-hidden">
+            <div className="max-h-72 overflow-y-auto divide-y divide-gray-100">
+              {results.map((result, index) => (
+                <div key={index} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-800 truncate">{result.originalName}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-xs text-gray-500">{formatSize(result.originalSize)}</span>
+                      <ArrowRight className="w-3 h-3 text-gray-400" />
+                      <span className={`text-xs font-semibold ${result.newSize < result.originalSize ? 'text-green-600' : 'text-orange-500'}`}>
+                        {formatSize(result.newSize)}
+                      </span>
+                    </div>
+                  </div>
+                  <a 
+                    href={result.url} 
+                    download={result.name}
+                    className="p-2 text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    title="Download"
+                  >
+                    <Download className="w-4 h-4" />
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a 
-              href={result.url} 
-              download={result.name}
+            <button 
+              onClick={downloadAll}
               className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
-              <Download className="w-5 h-5" /> Download {targetFormat.split('/')[1].toUpperCase()}
-            </a>
+              <FileArchive className="w-5 h-5" />
+              {results.length > 1 ? 'Download All (ZIP)' : `Download ${targetFormat.split('/')[1].toUpperCase()}`}
+            </button>
             <button 
               onClick={resetTool}
               className="bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-800 px-6 py-3 rounded-xl font-medium transition-colors"
             >
-              Convert Another
+              Convert More
             </button>
           </div>
         </div>

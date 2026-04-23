@@ -2,6 +2,9 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Home from './pages/Home';
+import PdfTools from './pages/PdfTools';
+import ImageTools from './pages/ImageTools';
+import AiTools from './pages/AiTools';
 import ImageToPdf from './components/tools/ImageToPdf';
 import WordToPdf from './components/tools/WordToPdf';
 import PdfToImages from './components/tools/PdfToImages';
@@ -18,10 +21,6 @@ import ImageConverter from './components/tools/ImageConverter';
 import DocumentAi from './components/tools/DocumentAi';
 
 
-
-
-
-
 function App() {
   return (
     <div className="min-h-screen bg-gray-50/50 font-sans text-gray-900 selection:bg-blue-200">
@@ -30,6 +29,9 @@ function App() {
       <main className="pb-12">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/pdf-tools" element={<PdfTools />} />
+          <Route path="/image-tools" element={<ImageTools />} />
+          <Route path="/ai-tools" element={<AiTools />} />
           <Route path="/image-to-pdf" element={<ImageToPdf />} />
           <Route path="/word-to-pdf" element={<WordToPdf />} />
           <Route path="/pdf-to-images" element={<PdfToImages />} />
