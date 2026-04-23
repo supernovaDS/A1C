@@ -67,13 +67,21 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center py-2">
-              <span className="font-extrabold text-2xl tracking-tight">
-                <span className="text-slate-800">convert</span>
-                <span className="text-blue-600">A</span>
-                <span className="text-green-600">ll</span>
-              </span>
+          <div className="flex items-center h-full relative">
+            <Link to="/" className="flex items-center py-2 block group">
+              <img
+                src="/logo.png"
+                alt="ConvertAll Logo"
+                className="h-[86px] w-[86px] sm:h-[96px] sm:w-[96px] absolute -left-4 sm:-left-3 object-contain pointer-events-auto"
+                style={{ top: '50%', transform: 'translateY(-50%)' }}
+              />
+              <div className="flex items-center pl-[68px] sm:pl-[78px]">
+                <span className="font-extrabold text-2xl tracking-tight hidden sm:block">
+                  <span className="text-slate-800">convert</span>
+                  <span className="text-blue-600">A</span>
+                  <span className="text-green-600">ll</span>
+                </span>
+              </div>
             </Link>
           </div>
 
