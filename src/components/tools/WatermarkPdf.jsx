@@ -207,7 +207,7 @@ export default function WatermarkPdf() {
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-        <Stamp className="text-purple-500" /> Watermark PDF
+        <Stamp className="text-blue-500" /> Watermark PDF
       </h2>
 
       {error && (
@@ -240,22 +240,22 @@ export default function WatermarkPdf() {
                       onClick={() => setMode('text')}
                       className={`p-3 rounded-xl border-2 text-center transition-all ${
                         mode === 'text' 
-                          ? 'border-purple-500 bg-purple-50' 
-                          : 'border-gray-200 hover:border-purple-200'
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-blue-200'
                       }`}
                     >
-                      <Type className={`w-5 h-5 mx-auto mb-1 ${mode === 'text' ? 'text-purple-600' : 'text-gray-400'}`} />
+                      <Type className={`w-5 h-5 mx-auto mb-1 ${mode === 'text' ? 'text-blue-600' : 'text-gray-400'}`} />
                       <span className="text-sm font-semibold text-gray-700">Text</span>
                     </button>
                     <button
                       onClick={() => setMode('image')}
                       className={`p-3 rounded-xl border-2 text-center transition-all ${
                         mode === 'image' 
-                          ? 'border-purple-500 bg-purple-50' 
-                          : 'border-gray-200 hover:border-purple-200'
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-blue-200'
                       }`}
                     >
-                      <ImageIcon className={`w-5 h-5 mx-auto mb-1 ${mode === 'image' ? 'text-purple-600' : 'text-gray-400'}`} />
+                      <ImageIcon className={`w-5 h-5 mx-auto mb-1 ${mode === 'image' ? 'text-blue-600' : 'text-gray-400'}`} />
                       <span className="text-sm font-semibold text-gray-700">Image</span>
                     </button>
                   </div>
@@ -275,7 +275,7 @@ export default function WatermarkPdf() {
                             onChange={(e) => setWatermarkText(e.target.value.toUpperCase())}
                             placeholder="e.g., DRAFT, CONFIDENTIAL"
                             maxLength={30}
-                            className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all uppercase tracking-wider"
+                            className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all uppercase tracking-wider"
                           />
                         </div>
                       </div>
@@ -285,7 +285,7 @@ export default function WatermarkPdf() {
                           Watermark Image
                         </label>
                         {!watermarkImagePreview ? (
-                          <label className="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-purple-400 hover:bg-purple-50/30 transition-all">
+                          <label className="flex flex-col items-center gap-2 p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-all">
                             <UploadCloud className="w-8 h-8 text-gray-400" />
                             <span className="text-sm text-gray-600 font-medium">Click to select image</span>
                             <span className="text-xs text-gray-400">PNG or JPG</span>
@@ -319,7 +319,7 @@ export default function WatermarkPdf() {
                               min="0.1" max="1" step="0.05"
                               value={imageScale}
                               onChange={(e) => setImageScale(parseFloat(e.target.value))}
-                              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                             />
                           </div>
                         )}
@@ -336,7 +336,7 @@ export default function WatermarkPdf() {
                         min="0.1" max="1" step="0.1"
                         value={opacity}
                         onChange={(e) => setOpacity(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                       />
                       <div className="flex justify-between text-xs text-gray-400 mt-1">
                         <span>Faint</span>
@@ -355,7 +355,7 @@ export default function WatermarkPdf() {
                     <button 
                       onClick={applyWatermark}
                       disabled={isProcessing || (mode === 'text' && !watermarkText.trim()) || (mode === 'image' && !watermarkImage)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isProcessing ? <Loader2 className="animate-spin w-5 h-5" /> : <Stamp className="w-5 h-5" />}
                       Stamp Document
@@ -378,15 +378,15 @@ export default function WatermarkPdf() {
           )}
         </>
       ) : (
-        <div className="text-center py-10 px-4 bg-purple-50 rounded-xl border border-purple-200">
-          <h3 className="text-2xl font-bold text-purple-700 mb-2">Watermark Applied!</h3>
-          <p className="text-purple-600 mb-8">Your {mode} watermark has been stamped across all pages of the document.</p>
+        <div className="text-center py-10 px-4 bg-blue-50 rounded-xl border border-blue-200">
+          <h3 className="text-2xl font-bold text-blue-700 mb-2">Watermark Applied!</h3>
+          <p className="text-blue-600 mb-8">Your {mode} watermark has been stamped across all pages of the document.</p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
               href={resultUrl} 
               download={`Watermarked_${file.name}`}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
             >
               <Download className="w-5 h-5" /> Download PDF
             </a>

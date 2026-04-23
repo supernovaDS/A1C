@@ -15,208 +15,155 @@ import {
   Presentation,
   FileSpreadsheet,
   BrainCircuit,
+  Shield,
+  Zap,
+  Globe,
 } from "lucide-react";
 
 const categories = [
   {
     name: "PDF Tools",
-    description: "Convert, merge, split, and manage your PDF documents",
+    description: "Convert, merge, split, and secure PDF documents",
     path: "/pdf-tools",
+    accent: "blue",
     tools: [
-      {
-        title: "Image to PDF",
-        description:
-          "Convert JPG or PNG images to a single, high-quality PDF document instantly in your browser.",
-        icon: <FileImage className="w-7 h-7 text-blue-500" />,
-        path: "/image-to-pdf",
-        color: "blue",
-      },
-      {
-        title: "Word to PDF",
-        description:
-          "Convert Microsoft Word documents (.docx) to exact PDF replicas using our secure API.",
-        icon: <FileText className="w-7 h-7 text-purple-500" />,
-        path: "/word-to-pdf",
-        color: "purple",
-      },
-      {
-        title: "PDF to Images",
-        description:
-          "Extract specific pages from any PDF into high-quality JPG/PNG images and download as a ZIP.",
-        icon: <ImageIcon className="w-7 h-7 text-emerald-500" />,
-        path: "/pdf-to-images",
-        color: "emerald",
-      },
-      {
-        title: "Merge PDFs",
-        description:
-          "Combine multiple PDF files into one. Drag and drop to rearrange order securely in your browser.",
-        icon: <Layers className="w-7 h-7 text-indigo-500" />,
-        path: "/merge-pdf",
-        color: "indigo",
-      },
-      {
-        title: "Compress PDF",
-        description:
-          "Reduce file size heavily without losing quality. Perfect for email attachments and web uploads.",
-        icon: <Minimize2 className="w-7 h-7 text-orange-500" />,
-        path: "/compress-pdf",
-        color: "orange",
-      },
-      {
-        title: "Split PDF",
-        description:
-          "Extract specific pages or burst a large document into single-page PDFs instantly in your browser.",
-        icon: (
-          <Scissors className="w-7 h-7 text-cyan-500 transform -scale-x-100" />
-        ),
-        path: "/split-pdf",
-        color: "cyan",
-      },
-      {
-        title: "Rotate PDF",
-        description:
-          "Fix upside-down or sideways pages. Rotate individual pages or the entire document instantly.",
-        icon: <RotateCw className="w-7 h-7 text-teal-500" />,
-        path: "/rotate-pdf",
-        color: "teal",
-      },
-      {
-        title: "Protect PDF",
-        description:
-          "Secure your document with a strong password. All encryption happens locally in your browser.",
-        icon: <Lock className="w-7 h-7 text-red-500" />,
-        path: "/protect-pdf",
-        color: "red",
-      },
-      {
-        title: "Unlock PDF",
-        description:
-          "Permanently remove password security and restrictions from your PDFs securely in your browser.",
-        icon: <Unlock className="w-7 h-7 text-green-500" />,
-        path: "/unlock-pdf",
-        color: "green",
-      },
-      {
-        title: "Watermark PDF",
-        description:
-          "Stamp text or images across your document pages to mark them as confidential, draft, or approved.",
-        icon: <Stamp className="w-7 h-7 text-purple-500" />,
-        path: "/watermark-pdf",
-        color: "purple",
-      },
-      {
-        title: "PPT to PDF",
-        description:
-          "Convert PowerPoint presentations (.ppt, .pptx) into universally readable PDF slides instantly.",
-        icon: <Presentation className="w-7 h-7 text-orange-600" />,
-        path: "/ppt-to-pdf",
-        color: "orange",
-      },
-      {
-        title: "Excel to PDF",
-        description:
-          "Convert Excel spreadsheets (.xls, .xlsx) into clean, easy-to-read PDF documents.",
-        icon: <FileSpreadsheet className="w-7 h-7 text-green-600" />,
-        path: "/excel-to-pdf",
-        color: "green",
-      },
+      { title: "Image to PDF", description: "Convert images to high-quality PDF documents.", icon: <FileImage className="w-6 h-6" />, path: "/image-to-pdf", iconColor: "text-blue-600" },
+      { title: "Word to PDF", description: "Convert .docx files to exact PDF replicas.", icon: <FileText className="w-6 h-6" />, path: "/word-to-pdf", iconColor: "text-blue-500" },
+      { title: "PDF to Images", description: "Extract pages as JPG or PNG images.", icon: <ImageIcon className="w-6 h-6" />, path: "/pdf-to-images", iconColor: "text-emerald-600" },
+      { title: "Merge PDFs", description: "Combine multiple PDFs into one document.", icon: <Layers className="w-6 h-6" />, path: "/merge-pdf", iconColor: "text-indigo-500" },
+      { title: "Compress PDF", description: "Reduce file size for email and uploads.", icon: <Minimize2 className="w-6 h-6" />, path: "/compress-pdf", iconColor: "text-orange-500" },
+      { title: "Split PDF", description: "Extract specific pages from a document.", icon: <Scissors className="w-6 h-6 transform -scale-x-100" />, path: "/split-pdf", iconColor: "text-cyan-600" },
+      { title: "Rotate PDF", description: "Fix page orientation instantly.", icon: <RotateCw className="w-6 h-6" />, path: "/rotate-pdf", iconColor: "text-teal-500" },
+      { title: "Protect PDF", description: "Lock documents with a password.", icon: <Lock className="w-6 h-6" />, path: "/protect-pdf", iconColor: "text-red-500" },
+      { title: "Unlock PDF", description: "Remove password restrictions.", icon: <Unlock className="w-6 h-6" />, path: "/unlock-pdf", iconColor: "text-green-600" },
+      { title: "Watermark PDF", description: "Stamp text or images on pages.", icon: <Stamp className="w-6 h-6" />, path: "/watermark-pdf", iconColor: "text-slate-600" },
+      { title: "PPT to PDF", description: "Convert presentations to PDF.", icon: <Presentation className="w-6 h-6" />, path: "/ppt-to-pdf", iconColor: "text-orange-600" },
+      { title: "Excel to PDF", description: "Convert spreadsheets to PDF.", icon: <FileSpreadsheet className="w-6 h-6" />, path: "/excel-to-pdf", iconColor: "text-green-600" },
     ],
   },
   {
     name: "Image Tools",
     description: "Convert and optimize images between formats",
     path: "/image-tools",
+    accent: "emerald",
     tools: [
-      {
-        title: "Image Converter",
-        description:
-          "Quickly convert between JPG, PNG, and WEBP formats natively in your browser. Supports batch conversion.",
-        icon: <ImageIcon className="w-7 h-7 text-pink-500" />,
-        path: "/image-converter",
-        color: "pink",
-      },
+      { title: "Image Converter", description: "Batch convert between JPG, PNG, and WEBP.", icon: <ImageIcon className="w-6 h-6" />, path: "/image-converter", iconColor: "text-blue-600" },
     ],
   },
   {
     name: "AI Tools",
-    description: "Intelligent document analysis powered by AI",
+    description: "Intelligent document analysis and extraction",
     path: "/ai-tools",
+    accent: "blue",
     tools: [
-      {
-        title: "Document Intelligence",
-        description:
-          "Use advanced AI to instantly extract text (OCR) from images or generate smart summaries of complex PDFs.",
-        icon: <BrainCircuit className="w-7 h-7 text-indigo-500" />,
-        path: "/document-ai",
-        color: "indigo",
-      },
+      { title: "Document Intelligence", description: "AI-powered OCR and smart document summaries.", icon: <BrainCircuit className="w-6 h-6" />, path: "/document-ai", iconColor: "text-indigo-600" },
     ],
   },
 ];
 
 export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div>
       {/* Hero Section */}
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
-          The Ultimate Document Toolkit
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Convert, merge, and edit your files securely. Fast local processing
-          mixed with powerful API conversions.
-        </p>
-      </div>
-
-      {/* Category Sections */}
-      {categories.map((category) => (
-        <section key={category.name} className="mb-14">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">
-                {category.name}
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                {category.description}
-              </p>
+      <section className="relative overflow-hidden">
+        <div className="dot-grid-bg absolute inset-0 opacity-40" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-20 sm:pb-24">
+          <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium">
+              <Zap className="w-3.5 h-3.5" />
+              Free & Open Source Document Toolkit
             </div>
-            <Link
-              to={category.path}
-              className="hidden sm:flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              View all
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-5">
+              Convert, process
+              <br className="hidden sm:block" />
+              & manage documents
+            </h1>
+
+            <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10">
+              Professional-grade conversion for PDFs, images, and office files.
+              Fast local processing with powerful API-backed conversions — all in your browser.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                to="/pdf-tools"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm"
+              >
+                Explore PDF Tools
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/image-converter"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 rounded-lg font-semibold text-sm transition-colors border border-slate-200 shadow-sm"
+              >
+                Try Image Converter
+              </Link>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.tools.map((tool, index) => (
-              <Link
-                key={index}
-                to={tool.path}
-                className="group block p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-200 ease-in-out hover:-translate-y-1"
-              >
-                <div className="mb-4">
-                  <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-blue-50 transition-colors inline-block">
-                    {tool.icon}
-                  </div>
+          {/* Feature highlights */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto mt-16">
+            {[
+              { icon: <Zap className="w-5 h-5 text-blue-600" />, title: "Browser-Based", desc: "Most tools run locally — your files never leave your device." },
+              { icon: <Shield className="w-5 h-5 text-green-600" />, title: "Secure Processing", desc: "End-to-end encryption for API conversions. Zero data retention." },
+              { icon: <Globe className="w-5 h-5 text-slate-600" />, title: "14+ Tools", desc: "PDF, DOCX, XLSX, PPTX, JPG, PNG, WEBP, and more." },
+            ].map((f, i) => (
+              <div key={i} className="flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 animate-fade-in-up" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
+                <div className="p-2 bg-slate-50 rounded-lg shrink-0">{f.icon}</div>
+                <div>
+                  <h3 className="font-semibold text-slate-800 text-sm">{f.title}</h3>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{f.desc}</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {tool.title}
-                </h3>
-                <p className="text-gray-600 text-sm mb-6 line-clamp-2">
-                  {tool.description}
-                </p>
-                <div className="flex items-center text-blue-600 font-semibold text-sm">
-                  Try tool{" "}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+              </div>
             ))}
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
+
+      {/* Tool Categories */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        {categories.map((category) => (
+          <div key={category.name} className="mb-14">
+            {/* Section Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">{category.name}</h2>
+                <p className="text-sm text-slate-500 mt-0.5">{category.description}</p>
+              </div>
+              <Link
+                to={category.path}
+                className="hidden sm:flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                View all <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            {/* Tool Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-children">
+              {category.tools.map((tool, index) => (
+                <Link
+                  key={index}
+                  to={tool.path}
+                  className="group flex items-start gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 ease-out"
+                >
+                  <div className={`p-2.5 rounded-lg bg-slate-50 group-hover:bg-blue-50 transition-colors shrink-0 ${tool.iconColor}`}>
+                    {tool.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed line-clamp-2">
+                      {tool.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }

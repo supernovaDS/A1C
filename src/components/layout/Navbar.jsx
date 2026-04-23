@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Layers, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 const navItems = [
   { label: "Home", path: "/", type: "link" },
@@ -43,7 +43,6 @@ export default function Navbar() {
   const location = useLocation();
   const dropdownTimerRef = useRef(null);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileOpen(false);
     setMobileAccordion(null);
@@ -64,32 +63,31 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo Section */}
+        <div className="flex justify-between h-20">
+          {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-blue-600 p-2 rounded-lg group-hover:bg-blue-700 transition-colors">
-                <Layers className="h-5 w-5 text-white" />
-              </div>
-              <span className="font-bold text-xl text-gray-900 tracking-tight">
-                ConvertAll
+            <Link to="/" className="flex items-center py-2">
+              <span className="font-extrabold text-2xl tracking-tight">
+                <span className="text-slate-800">convert</span>
+                <span className="text-blue-600">A</span>
+                <span className="text-green-600">ll</span>
               </span>
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) =>
               item.type === "link" ? (
                 <Link
                   key={item.label}
                   to={item.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive(item.path)
                       ? "text-blue-600 bg-blue-50"
-                      : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                      : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
                   }`}
                 >
                   {item.label}
@@ -103,27 +101,25 @@ export default function Navbar() {
                 >
                   <Link
                     to={item.path}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                       isActive(item.path) || openDropdown === item.label
                         ? "text-blue-600 bg-blue-50"
-                        : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                        : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
                     }`}
                   >
                     {item.label}
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform ${
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
                         openDropdown === item.label ? "rotate-180" : ""
                       }`}
                     />
                   </Link>
 
-                  {/* Dropdown */}
                   {openDropdown === item.label && (
-                    <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-                      {/* View All link */}
+                    <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-50 animate-fade-in-up" style={{animationDuration: '0.15s'}}>
                       <Link
                         to={item.path}
-                        className="block px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 border-b border-gray-100 mb-1"
+                        className="block px-4 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-50 border-b border-gray-100 mb-1"
                       >
                         View all {item.label}
                       </Link>
@@ -134,7 +130,7 @@ export default function Navbar() {
                           className={`block px-4 py-2 text-sm transition-colors ${
                             isActive(child.path)
                               ? "text-blue-600 bg-blue-50 font-medium"
-                              : "text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                              : "text-slate-700 hover:bg-slate-50 hover:text-blue-600"
                           }`}
                         >
                           {child.label}
@@ -151,31 +147,28 @@ export default function Navbar() {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2"
+              className="text-slate-600 hover:text-slate-900 focus:outline-none p-2 rounded-lg hover:bg-slate-50 transition-colors"
+              aria-label="Toggle navigation menu"
             >
-              {isMobileOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu */}
       {isMobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-50 absolute w-full shadow-lg z-50">
-          <div className="px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50 animate-fade-in-up" style={{animationDuration: '0.2s'}}>
+          <div className="px-4 pt-2 pb-4 space-y-0.5">
             {navItems.map((item) =>
               item.type === "link" ? (
                 <Link
                   key={item.label}
                   to={item.path}
-                  className={`block px-3 py-2.5 rounded-lg text-base font-medium transition-colors ${
+                  className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive(item.path)
                       ? "text-blue-600 bg-blue-50"
-                      : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      : "text-slate-700 hover:text-blue-600 hover:bg-blue-50"
                   }`}
                 >
                   {item.label}
@@ -188,18 +181,18 @@ export default function Navbar() {
                         mobileAccordion === item.label ? null : item.label
                       )
                     }
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                   >
                     {item.label}
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform ${
+                      className={`w-4 h-4 transition-transform duration-200 ${
                         mobileAccordion === item.label ? "rotate-180" : ""
                       }`}
                     />
                   </button>
 
                   {mobileAccordion === item.label && (
-                    <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-blue-100 pl-3">
+                    <div className="ml-3 mt-0.5 space-y-0.5 border-l-2 border-blue-100 pl-3">
                       <Link
                         to={item.path}
                         className="block px-3 py-2 rounded-md text-sm font-semibold text-blue-600 hover:bg-blue-50"
@@ -213,7 +206,7 @@ export default function Navbar() {
                           className={`block px-3 py-2 rounded-md text-sm transition-colors ${
                             isActive(child.path)
                               ? "text-blue-600 bg-blue-50 font-medium"
-                              : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                              : "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
                           }`}
                         >
                           {child.label}

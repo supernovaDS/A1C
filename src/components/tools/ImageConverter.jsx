@@ -144,7 +144,7 @@ export default function ImageConverter() {
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-        <ImageIcon className="text-pink-500" /> Image Converter
+        <ImageIcon className="text-blue-500" /> Image Converter
       </h2>
 
       {error && (
@@ -179,7 +179,7 @@ export default function ImageConverter() {
                         <div className="flex items-center gap-3 mt-0.5">
                           <span className="text-xs text-gray-500">{formatSize(file.size)}</span>
                           <ArrowRight className="w-3 h-3 text-gray-400" />
-                          <span className="text-xs text-pink-600 font-medium">{getEstimatedSize(file.size)}</span>
+                          <span className="text-xs text-blue-600 font-medium">{getEstimatedSize(file.size)}</span>
                         </div>
                       </div>
                       <button 
@@ -203,7 +203,7 @@ export default function ImageConverter() {
                     <select 
                       value={targetFormat}
                       onChange={(e) => setTargetFormat(e.target.value)}
-                      className="w-full p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 font-medium text-gray-700"
+                      className="w-full p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 font-medium text-gray-700"
                     >
                       <option value="image/jpeg">JPG</option>
                       <option value="image/png">PNG</option>
@@ -222,16 +222,16 @@ export default function ImageConverter() {
                         min="0.1" max="1" step="0.1"
                         value={quality}
                         onChange={(e) => setQuality(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-500 mt-2"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-2"
                       />
                     </div>
                   )}
                 </div>
 
                 {targetFormat !== 'image/png' && (
-                  <div className="flex items-start gap-2 p-3 bg-pink-50 rounded-lg border border-pink-100">
-                    <Info className="w-4 h-4 text-pink-500 shrink-0 mt-0.5" />
-                    <p className="text-xs text-pink-700">
+                  <div className="flex items-start gap-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                    <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                    <p className="text-xs text-blue-700">
                       Estimated total output: <strong>{formatSize(totalOriginalSize * quality)}</strong> (actual size may vary based on image content)
                     </p>
                   </div>
@@ -242,7 +242,7 @@ export default function ImageConverter() {
               <button 
                 onClick={convertAll}
                 disabled={isConverting}
-                className="w-full bg-pink-600 hover:bg-pink-700 text-white px-6 py-3.5 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
               >
                 {isConverting ? (
                   <>
@@ -257,7 +257,7 @@ export default function ImageConverter() {
               {isConverting && (
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-pink-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -267,9 +267,9 @@ export default function ImageConverter() {
         </>
       ) : (
         <div className="space-y-6">
-          <div className="text-center py-6 px-4 bg-pink-50 rounded-xl border border-pink-200">
-            <h3 className="text-2xl font-bold text-pink-700 mb-2">Conversion Complete!</h3>
-            <p className="text-pink-600">
+          <div className="text-center py-6 px-4 bg-blue-50 rounded-xl border border-blue-200">
+            <h3 className="text-2xl font-bold text-blue-700 mb-2">Conversion Complete!</h3>
+            <p className="text-blue-600">
               {results.length} image{results.length !== 1 ? 's' : ''} converted — Total: {formatSize(totalOriginalSize)} → <strong>{formatSize(totalNewSize)}</strong>
             </p>
           </div>
@@ -292,7 +292,7 @@ export default function ImageConverter() {
                   <a 
                     href={result.url} 
                     download={result.name}
-                    className="p-2 text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                     title="Download"
                   >
                     <Download className="w-4 h-4" />
@@ -306,7 +306,7 @@ export default function ImageConverter() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button 
               onClick={downloadAll}
-              className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
               <FileArchive className="w-5 h-5" />
               {results.length > 1 ? 'Download All (ZIP)' : `Download ${targetFormat.split('/')[1].toUpperCase()}`}
