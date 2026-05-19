@@ -18,6 +18,7 @@ import {
   Shield,
   Zap,
   Globe,
+  Camera,
 } from "lucide-react";
 
 const categories = [
@@ -48,6 +49,8 @@ const categories = [
     accent: "emerald",
     tools: [
       { title: "Image Converter", description: "Batch convert between JPG, PNG, and WEBP.", icon: <ImageIcon className="w-6 h-6" />, path: "/image-converter", iconColor: "text-blue-600" },
+      { title: "Compress Image", description: "Reduce image file sizes instantly without losing visible quality.", icon: <Minimize2 className="w-6 h-6" />, path: "/compress-image", iconColor: "text-emerald-600" },
+      { title: "Passport Photo", description: "Create compliant digital passport photos and print sheets.", icon: <Camera className="w-6 h-6" />, path: "/passport-photo", iconColor: "text-indigo-600" },
     ],
   },
   {

@@ -19,6 +19,8 @@ import WatermarkPdf from './components/tools/WatermarkPdf';
 import PptToPdf from './components/tools/PptToPdf';
 import ExcelToPdf from './components/tools/XlsToPdf';
 import ImageConverter from './components/tools/ImageConverter';
+import ImageCompressor from './components/tools/ImageCompressor';
+import PassportPhotoGenerator from './components/tools/PassportPhotoGenerator';
 import DocumentAi from './components/tools/DocumentAi';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
           <Route path="/ppt-to-pdf" element={<PptToPdf />} />
           <Route path="/excel-to-pdf" element={<ExcelToPdf />} />
           <Route path="/image-converter" element={<ImageConverter />} />
+          <Route path="/compress-image" element={<ImageCompressor />} />
+          <Route path="/passport-photo" element={<PassportPhotoGenerator />} />
           <Route path="/document-ai" element={<DocumentAi />} />
         </Routes>
       </main>

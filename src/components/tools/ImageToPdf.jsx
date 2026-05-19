@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import FileUploader from '../shared/FileUploader';
-import { FileImage, Download, Loader2, X, Plus } from 'lucide-react';
+import { FileImage, Download, Loader2, X, Plus, ChevronUp, ChevronDown, GripVertical } from 'lucide-react';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 export default function ImageToPdf() {
   const [files, setFiles] = useState([]);
   const [isConverting, setIsConverting] = useState(false);
   const [pdfUrl, setPdfUrl] = useState(null);
 
-  // Clean up memory leaks when the component unmounts
+  const allUrlsRef = React.useRef(new Set());
+
+  // Clean up memory leaks only when the component unmounts
   useEffect(() => {
-    return () => files.forEach(f => URL.revokeObjectURL(f.preview));
-  }, [files]);
+    return () => {
+      allUrlsRef.current.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   const handleFileSelect = (newFiles) => {
     // Wrap the raw File object with a temporary URL for the image preview
-    const filesWithPreviews = newFiles.map(file => ({
-      rawFile: file,
-      preview: URL.createObjectURL(file)
-    }));
+    const filesWithPreviews = newFiles.map(file => {
+      const preview = URL.createObjectURL(file);
+      allUrlsRef.current.add(preview);
+      return {
+        id: crypto.randomUUID(),
+        rawFile: file,
+        preview
+      };
+    });
     
     setFiles((prev) => [...prev, ...filesWithPreviews]);
     setPdfUrl(null); 
@@ -27,9 +37,42 @@ export default function ImageToPdf() {
   const removeFile = (indexToRemove) => {
     setFiles((prev) => {
       // Revoke the URL to free up browser memory before removing
-      URL.revokeObjectURL(prev[indexToRemove].preview);
+      const url = prev[indexToRemove].preview;
+      URL.revokeObjectURL(url);
+      allUrlsRef.current.delete(url);
       return prev.filter((_, index) => index !== indexToRemove);
     });
+  };
+
+  const moveFile = (index, direction) => {
+    setFiles((prev) => {
+      const nextFiles = [...prev];
+      const targetIndex = index + direction;
+      
+      if (targetIndex < 0 || targetIndex >= nextFiles.length) {
+        return prev;
+      }
+      
+      // Swap elements
+      const temp = nextFiles[index];
+      nextFiles[index] = nextFiles[targetIndex];
+      nextFiles[targetIndex] = temp;
+      
+      return nextFiles;
+    });
+    setPdfUrl(null);
+  };
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+    
+    setFiles((prev) => {
+      const items = [...prev];
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
+      return items;
+    });
+    setPdfUrl(null);
   };
 
   const convertToPdf = async () => {
@@ -98,7 +141,10 @@ export default function ImageToPdf() {
   };
 
   const resetTool = () => {
-    files.forEach(f => URL.revokeObjectURL(f.preview)); // Clean up URLs
+    files.forEach(f => {
+      URL.revokeObjectURL(f.preview);
+      allUrlsRef.current.delete(f.preview);
+    });
     setFiles([]);
     setPdfUrl(null);
   };
@@ -120,46 +166,99 @@ export default function ImageToPdf() {
           {files.length > 0 && (
             <div className="mt-8">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-700">File Queue ({files.length})</h3>
+                <div>
+                  <h3 className="font-semibold text-gray-700">File Queue ({files.length})</h3>
+                  <p className="text-xs text-gray-400">Drag items or use arrows to reorder pages</p>
+                </div>
               </div>
               
-              <ul className="space-y-3 mb-6 max-h-72 overflow-y-auto pr-2">
-                {files.map((fileObj, index) => (
-                  <li 
-                    key={`${fileObj.rawFile.name}-${index}`} 
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-200 transition-colors group"
-                  >
-                    <div className="flex items-center gap-4 overflow-hidden">
-                      {/* Image Thumbnail */}
-                      <div className="w-12 h-12 shrink-0 bg-white border border-gray-200 rounded-md overflow-hidden flex items-center justify-center">
-                        <img 
-                          src={fileObj.preview} 
-                          alt="preview" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      
-                      {/* File Details */}
-                      <div className="flex flex-col truncate">
-                        <span className="font-medium text-gray-800 text-sm sm:text-base truncate">
-                          {fileObj.rawFile.name}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {(fileObj.rawFile.size / 1024 / 1024).toFixed(2)} MB
-                        </span>
-                      </div>
-                    </div>
-
-                    <button 
-                      onClick={() => removeFile(index)}
-                      className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-md transition-all active:scale-95 shrink-0"
-                      aria-label="Remove file"
+              <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="image-list">
+                  {(provided) => (
+                    <ul 
+                      className="space-y-3 mb-6 max-h-96 overflow-y-auto pr-2"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
                     >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      {files.map((fileObj, index) => (
+                        <Draggable key={fileObj.id} draggableId={fileObj.id} index={index}>
+                          {(provided, snapshot) => (
+                            <li 
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className={`flex items-center justify-between p-3 rounded-lg border transition-colors group ${
+                                snapshot.isDragging ? 'shadow-lg border-blue-400 bg-blue-50' : 'bg-gray-50 border-gray-200 hover:border-blue-200'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3 overflow-hidden">
+                                {/* Drag Handle */}
+                                <div 
+                                  {...provided.dragHandleProps}
+                                  className="text-gray-400 hover:text-blue-600 shrink-0 cursor-grab active:cursor-grabbing p-1"
+                                >
+                                  <GripVertical className="w-5 h-5" />
+                                </div>
+
+                                {/* Image Thumbnail */}
+                                <div className="w-12 h-12 shrink-0 bg-white border border-gray-200 rounded-md overflow-hidden flex items-center justify-center">
+                                  <img 
+                                    src={fileObj.preview} 
+                                    alt="preview" 
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                
+                                {/* File Details */}
+                                <div className="flex flex-col truncate">
+                                  <span className="font-medium text-gray-800 text-sm sm:text-base truncate">
+                                    {fileObj.rawFile.name}
+                                  </span>
+                                  <span className="text-xs text-gray-500">
+                                    {(fileObj.rawFile.size / 1024 / 1024).toFixed(2)} MB • Page {index + 1}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                {/* Reorder Buttons */}
+                                <button 
+                                  onClick={() => moveFile(index, -1)}
+                                  disabled={index === 0}
+                                  className="text-gray-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                                  aria-label="Move page up"
+                                >
+                                  <ChevronUp className="w-4 h-4" />
+                                </button>
+                                <button 
+                                  onClick={() => moveFile(index, 1)}
+                                  disabled={index === files.length - 1}
+                                  className="text-gray-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                                  aria-label="Move page down"
+                                >
+                                  <ChevronDown className="w-4 h-4" />
+                                </button>
+
+                                {/* Divider */}
+                                <div className="w-px h-6 bg-gray-200 mx-1"></div>
+
+                                {/* Delete Button */}
+                                <button 
+                                  onClick={() => removeFile(index)}
+                                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-md transition-all active:scale-95"
+                                  aria-label="Remove file"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
 
               <button 
                 onClick={convertToPdf}

@@ -29,6 +29,8 @@ const navItems = [
     type: "dropdown",
     children: [
       { label: "Image Converter", path: "/image-converter" },
+      { label: "Compress Image", path: "/compress-image" },
+      { label: "Passport Photo", path: "/passport-photo" },
       { label: "Image to PDF", path: "/image-to-pdf" },
       { label: "PDF to Images", path: "/pdf-to-images" },
     ],

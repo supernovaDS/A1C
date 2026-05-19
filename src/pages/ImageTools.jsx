@@ -4,10 +4,14 @@ import {
   ArrowRight,
   Image as ImageIcon,
   FileImage,
+  Minimize2,
+  Camera,
 } from "lucide-react";
 
 const tools = [
   { title: "Image Converter", description: "Batch convert between JPG, PNG, and WEBP formats.", icon: <ImageIcon className="w-6 h-6 text-blue-600" />, path: "/image-converter" },
+  { title: "Compress Image", description: "Reduce image file sizes instantly without losing visible quality.", icon: <Minimize2 className="w-6 h-6 text-emerald-600" />, path: "/compress-image" },
+  { title: "Passport Photo Generator", description: "Create compliant digital passport photos and printable grids.", icon: <Camera className="w-6 h-6 text-indigo-600" />, path: "/passport-photo" },
   { title: "Image to PDF", description: "Convert JPG or PNG images to a high-quality PDF.", icon: <FileImage className="w-6 h-6 text-blue-500" />, path: "/image-to-pdf" },
   { title: "PDF to Images", description: "Extract pages from PDFs into JPG/PNG images.", icon: <ImageIcon className="w-6 h-6 text-emerald-600" />, path: "/pdf-to-images" },
 ];
