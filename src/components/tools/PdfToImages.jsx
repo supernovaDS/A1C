@@ -10,6 +10,8 @@ import { FileDown, Image as ImageIcon, Settings2, CheckSquare } from 'lucide-rea
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
+import SEO from '../SEO';
+
 export default function PdfToImages() {
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
@@ -125,8 +127,28 @@ export default function PdfToImages() {
     saveAs(zipBlob, `${pdfFile.name.split('.')[0]}_Images.zip`);
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF to Images Converter — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert pages from any PDF document to high-quality JPG or PNG images online. Free, secure, and fast browser-based local rendering.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Convert PDF to Images (JPG/PNG) Online"
+        description="Extract pages from any PDF document and save them as high-quality JPG or PNG image files in seconds."
+        path="/pdf-to-images"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <ImageIcon className="text-blue-500" /> PDF to Images
       </h2>

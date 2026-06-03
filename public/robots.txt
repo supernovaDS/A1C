@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://convertall.app/sitemap.xml
+Sitemap: https://a1c.onrender.com/sitemap.xml

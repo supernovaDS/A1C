@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { encryptPDF } from '@pdfsmaller/pdf-encrypt-lite';
 import FileUploader from '../shared/FileUploader';
 import { Lock, Download, Loader2, AlertTriangle, ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function ProtectPdf() {
   const [file, setFile] = useState(null);
@@ -58,8 +59,28 @@ export default function ProtectPdf() {
     setError(null);
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Protect PDF with Password Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Encrypt and secure your PDF documents online with a strong password. Fast local browser-based encryption.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Protect PDF with Password Online - Secure PDFs"
+        description="Encrypt and secure your sensitive PDF files with a strong password. Fast local browser-based document encryption."
+        path="/protect-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Lock className="text-red-500" /> Protect PDF
       </h2>

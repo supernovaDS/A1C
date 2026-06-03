@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import FileUploader from '../shared/FileUploader';
 import { ImageIcon, Download, Loader2, AlertTriangle, Settings, ArrowRight, X, FileArchive, Info } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function ImageConverter() {
   const [files, setFiles] = useState([]);
@@ -141,8 +142,28 @@ export default function ImageConverter() {
   const totalOriginalSize = files.reduce((acc, f) => acc + f.size, 0);
   const totalNewSize = results.reduce((acc, r) => acc + r.newSize, 0);
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Online Image Converter — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert images online between JPG, PNG, WebP, and other formats instantly. Supports high-speed local batch conversion.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Online Image Converter - JPG, PNG, WEBP"
+        description="Batch convert images between JPG, PNG, WebP, and other formats instantly in your browser."
+        path="/image-converter"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <ImageIcon className="text-blue-500" /> Image Converter
       </h2>

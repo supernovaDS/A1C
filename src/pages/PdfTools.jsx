@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import {
   FileImage,
   FileText,
@@ -32,8 +33,28 @@ const tools = [
 ];
 
 export default function PdfTools() {
+  const pdfSuiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF Tools Suite — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert to and from PDF, merge multiple files, compress size, split pages, protect with passwords, add watermarks, and rotate pages online.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO 
+        title="PDF Tools - Convert, Merge, Split & Compress PDFs"
+        description="Free online PDF tools. Convert to/from PDF, merge multiple files, compress size, split pages, protect with passwords, add watermarks, and rotate pages."
+        path="/pdf-tools"
+        schema={pdfSuiteSchema}
+      />
       <div className="mb-10 animate-fade-in-up">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
           PDF Tools

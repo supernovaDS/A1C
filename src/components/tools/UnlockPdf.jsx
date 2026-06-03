@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
 import { Unlock, Download, Loader2, AlertTriangle, Key } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function UnlockPdf() {
   const [file, setFile] = useState(null);
@@ -81,8 +82,28 @@ export default function UnlockPdf() {
     setError(null);
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Unlock PDF Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Remove password protection and restrictions from PDF files online. Permanently decrypt secured PDFs. Free and secure.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Unlock PDF Online - Remove Password Protection"
+        description="Remove password restrictions and security from protected PDF files to edit, print, or copy content."
+        path="/unlock-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Unlock className="text-green-500" /> Unlock PDF
       </h2>

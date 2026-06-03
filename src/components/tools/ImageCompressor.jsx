@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import FileUploader from '../shared/FileUploader';
 import { Minimize2, Download, Loader2, AlertTriangle, ArrowRight, X, FileArchive, Info, Settings } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function ImageCompressor() {
   const [files, setFiles] = useState([]);
@@ -160,8 +161,28 @@ export default function ImageCompressor() {
   const totalNewSize = results.reduce((acc, r) => acc + r.newSize, 0);
   const hasPngFiles = files.some(f => f.type === 'image/png');
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Compress Image Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Shrink JPG, PNG, and WebP image sizes online without losing quality. Set custom compression levels and max image widths.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100 animate-fade-in-up">
+      <SEO 
+        title="Compress Image Online - Reduce Image Size"
+        description="Shrink JPG, PNG, and WebP image sizes online without losing quality. Set custom compression levels."
+        path="/compress-image"
+        schema={seoSchema}
+      />
       <div className="mb-8 text-center">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-4 shadow-sm">
             <Minimize2 className="w-8 h-8" />

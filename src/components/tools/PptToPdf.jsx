@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
 import { Presentation, Download, Loader2, AlertTriangle } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function PptToPdf() {
   const [file, setFile] = useState(null);
@@ -67,8 +68,28 @@ export default function PptToPdf() {
     }
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PowerPoint to PDF Converter — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert PowerPoint (PPT and PPTX) presentation slides to high-quality PDF documents online. Free and secure.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Convert PowerPoint (PPT/PPTX) to PDF"
+        description="Convert PowerPoint presentation slides into high-quality PDF documents quickly and securely."
+        path="/ppt-to-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Presentation className="text-orange-600" />
         PowerPoint to PDF

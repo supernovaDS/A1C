@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FileUploader from "../shared/FileUploader";
 import { FileText, Download, Loader2, AlertCircle } from "lucide-react";
+import SEO from "../SEO";
 
 export default function WordToPdf() {
   const [file, setFile] = useState(null);
@@ -68,8 +69,28 @@ export default function WordToPdf() {
     }
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Word to PDF Converter — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert Word (DOCX or DOC) documents to high-quality PDF files online. Free, safe, and precise document rendering.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Convert Word (DOCX) to PDF Online"
+        description="Convert Microsoft Word (.docx) files to exact PDF replicas. Secure, fast, and precise rendering of document layouts."
+        path="/word-to-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <FileText className="text-blue-600" />
         Word to PDF

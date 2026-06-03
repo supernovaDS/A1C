@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import {
   ArrowRight,
   BrainCircuit,
@@ -10,8 +11,28 @@ const tools = [
 ];
 
 export default function AiTools() {
+  const aiSuiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Tools Suite — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Smart document processing tools powered by AI. Extracted OCR text and summarized PDF contents.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO 
+        title="AI-Powered Document Tools - OCR & Summaries"
+        description="Extract text from scanned PDFs and images, or generate automated smart summaries using advanced AI document intelligence."
+        path="/ai-tools"
+        schema={aiSuiteSchema}
+      />
       <div className="mb-10 animate-fade-in-up">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
           AI Tools

@@ -3,6 +3,7 @@ import { PDFDocument } from 'pdf-lib';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import FileUploader from '../shared/FileUploader';
 import { Layers, Download, Loader2, X, GripVertical, AlertTriangle } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function MergePdf() {
   const [files, setFiles] = useState([]);
@@ -106,8 +107,28 @@ export default function MergePdf() {
   const totalSizeMB = files.reduce((acc, curr) => acc + curr.size, 0) / (1024 * 1024);
   const isOverSizeLimit = totalSizeMB > MAX_TOTAL_SIZE_MB;
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Merge PDFs Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Combine multiple PDF files into a single document online. Reorder pages using drag-and-drop. Free and secure.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Merge PDF Files Online - Combine PDFs"
+        description="Combine multiple PDF files into a single document. Reorder pages easily using drag-and-drop. 100% free and secure."
+        path="/merge-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Layers className="text-blue-500" /> Merge PDFs
       </h2>

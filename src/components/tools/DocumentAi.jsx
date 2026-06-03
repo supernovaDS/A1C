@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
 import { BrainCircuit, Copy, CheckCheck, Loader2, AlertTriangle, FileText, AlignLeft } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function DocumentAi() {
   const [file, setFile] = useState(null);
@@ -83,8 +84,28 @@ export default function DocumentAi() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Document AI - Smart OCR & Analysis — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Extract text, key-value pairs, and structural data from files using advanced AI document intelligence online. Free OCR and PDF summaries.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Document AI - Smart OCR & Analysis"
+        description="Extract text, key-value pairs, and structural data from files using advanced AI document intelligence."
+        path="/document-ai"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <BrainCircuit className="text-indigo-500" /> Document Intelligence
       </h2>

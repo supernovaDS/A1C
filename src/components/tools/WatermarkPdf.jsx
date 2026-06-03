@@ -7,6 +7,26 @@ import { Stamp, Download, Loader2, AlertTriangle, Type, ImageIcon, UploadCloud, 
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
+import SEO from '../SEO';
+
+const FONTS = {
+  'Helvetica-Bold': { name: 'Helvetica Bold', lib: StandardFonts.HelveticaBold, canvas: 'bold Helvetica, Arial, sans-serif' },
+  'Helvetica': { name: 'Helvetica', lib: StandardFonts.Helvetica, canvas: 'Helvetica, Arial, sans-serif' },
+  'TimesRoman-Bold': { name: 'Times Roman Bold', lib: StandardFonts.TimesRomanBold, canvas: 'bold "Times New Roman", Times, serif' },
+  'TimesRoman': { name: 'Times Roman', lib: StandardFonts.TimesRoman, canvas: '"Times New Roman", Times, serif' },
+  'Courier-Bold': { name: 'Courier Bold', lib: StandardFonts.CourierBold, canvas: 'bold Courier, monospace' },
+  'Courier': { name: 'Courier', lib: StandardFonts.Courier, canvas: 'Courier, monospace' }
+};
+
+const COLORS = {
+  gray: { name: 'Gray', hex: '#808080', rgbVal: [0.5, 0.5, 0.5] },
+  black: { name: 'Black', hex: '#000000', rgbVal: [0, 0, 0] },
+  red: { name: 'Red', hex: '#EF4444', rgbVal: [0.937, 0.267, 0.267] },
+  blue: { name: 'Blue', hex: '#3B82F6', rgbVal: [0.231, 0.510, 0.965] },
+  green: { name: 'Green', hex: '#10B981', rgbVal: [0.063, 0.725, 0.506] },
+  orange: { name: 'Orange', hex: '#F97316', rgbVal: [0.976, 0.451, 0.086] }
+};
+
 export default function WatermarkPdf() {
   const [file, setFile] = useState(null);
   const [fileArrayBuffer, setFileArrayBuffer] = useState(null);
@@ -17,6 +37,9 @@ export default function WatermarkPdf() {
   // Text watermark settings
   const [watermarkText, setWatermarkText] = useState('CONFIDENTIAL');
   const [opacity, setOpacity] = useState(0.3);
+  const [textSize, setTextSize] = useState(60);
+  const [textColor, setTextColor] = useState('gray');
+  const [textFont, setTextFont] = useState('Helvetica-Bold');
 
   // Image watermark settings
   const [watermarkImage, setWatermarkImage] = useState(null);
@@ -71,9 +94,11 @@ export default function WatermarkPdf() {
       ctx.globalAlpha = opacity;
 
       if (mode === 'text' && watermarkText.trim()) {
-        const fontSize = Math.min(80, viewport.width / 8);
-        ctx.font = `bold ${fontSize}px Helvetica, Arial, sans-serif`;
-        ctx.fillStyle = '#808080';
+        const fontConfig = FONTS[textFont] || FONTS['Helvetica-Bold'];
+        const colorConfig = COLORS[textColor] || COLORS['gray'];
+
+        ctx.font = `${textSize}px ${fontConfig.canvas}`;
+        ctx.fillStyle = colorConfig.hex;
 
         const textMetrics = ctx.measureText(watermarkText);
         const textWidth = textMetrics.width;
@@ -103,7 +128,7 @@ export default function WatermarkPdf() {
     } catch (err) {
       console.error("Preview render error:", err);
     }
-  }, [fileArrayBuffer, watermarkText, opacity, mode, watermarkImagePreview, imageScale]);
+  }, [fileArrayBuffer, watermarkText, opacity, mode, watermarkImagePreview, imageScale, textSize, textColor, textFont]);
 
   useEffect(() => {
     if (fileArrayBuffer) {
@@ -132,20 +157,25 @@ export default function WatermarkPdf() {
       const pages = pdfDoc.getPages();
 
       if (mode === 'text') {
-        const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const fontConfig = FONTS[textFont] || FONTS['Helvetica-Bold'];
+        const colorConfig = COLORS[textColor] || COLORS['gray'];
+
+        const embeddedFont = await pdfDoc.embedFont(fontConfig.lib);
 
         pages.forEach((page) => {
           const { width, height } = page.getSize();
-          const fontSize = Math.min(80, width / 8); 
-          const textWidth = helveticaFont.widthOfTextAtSize(watermarkText, fontSize);
-          const textHeight = helveticaFont.heightAtSize(fontSize);
+          const fontSize = textSize; 
+          const textWidth = embeddedFont.widthOfTextAtSize(watermarkText, fontSize);
+          const textHeight = embeddedFont.heightAtSize(fontSize);
+
+          const [r, g, b] = colorConfig.rgbVal;
 
           page.drawText(watermarkText, {
             x: width / 2 - (textWidth / 2) * Math.cos(Math.PI / 4) + (textHeight / 2) * Math.sin(Math.PI / 4),
             y: height / 2 - (textWidth / 2) * Math.sin(Math.PI / 4) - (textHeight / 2) * Math.cos(Math.PI / 4),
             size: fontSize,
-            font: helveticaFont,
-            color: rgb(0.5, 0.5, 0.5),
+            font: embeddedFont,
+            color: rgb(r, g, b),
             opacity: opacity,
             rotate: degrees(45),
           });
@@ -202,10 +232,33 @@ export default function WatermarkPdf() {
     if (watermarkImagePreview) URL.revokeObjectURL(watermarkImagePreview);
     setWatermarkImagePreview(null);
     setMode('text');
+    setTextSize(60);
+    setTextColor('gray');
+    setTextFont('Helvetica-Bold');
+  };
+
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Add Watermark to PDF Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Stamp text or image watermarks onto PDF files online. Free, safe, and secure browser-based document watermarking.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
   };
 
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Add Watermark to PDF Online"
+        description="Stamp text or image watermarks onto your PDF pages. Customize position, opacity, font, and style."
+        path="/watermark-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Stamp className="text-blue-500" /> Watermark PDF
       </h2>
@@ -263,20 +316,77 @@ export default function WatermarkPdf() {
                   {/* Watermark Settings */}
                   <div className="p-4 border border-gray-200 rounded-xl bg-white space-y-5">
                     {mode === 'text' ? (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Watermark Text
-                        </label>
-                        <div className="relative">
-                          <Type className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Watermark Text
+                          </label>
+                          <div className="relative">
+                            <Type className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <input 
+                              type="text" 
+                              value={watermarkText}
+                              onChange={(e) => setWatermarkText(e.target.value.toUpperCase())}
+                              placeholder="e.g., DRAFT, CONFIDENTIAL"
+                              maxLength={30}
+                              className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all uppercase tracking-wider"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between items-center mb-2">
+                            <label className="text-sm font-medium text-gray-700">Font Size</label>
+                            <span className="text-sm text-gray-500 font-semibold">{textSize} px</span>
+                          </div>
                           <input 
-                            type="text" 
-                            value={watermarkText}
-                            onChange={(e) => setWatermarkText(e.target.value.toUpperCase())}
-                            placeholder="e.g., DRAFT, CONFIDENTIAL"
-                            maxLength={30}
-                            className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all uppercase tracking-wider"
+                            type="range" 
+                            min="20" max="120" step="5"
+                            value={textSize}
+                            onChange={(e) => setTextSize(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                           />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Font Family
+                          </label>
+                          <select 
+                            value={textFont}
+                            onChange={(e) => setTextFont(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm font-medium text-gray-700 bg-white"
+                          >
+                            {Object.entries(FONTS).map(([key, item]) => (
+                              <option key={key} value={key}>{item.name}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Text Color
+                          </label>
+                          <div className="flex gap-2.5 items-center flex-wrap pt-1">
+                            {Object.entries(COLORS).map(([key, item]) => (
+                              <button
+                                key={key}
+                                type="button"
+                                onClick={() => setTextColor(key)}
+                                className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center`}
+                                style={{ 
+                                  backgroundColor: item.hex, 
+                                  borderColor: textColor === key ? '#2563EB' : '#D1D5DB',
+                                  transform: textColor === key ? 'scale(1.15)' : 'scale(1)'
+                                }}
+                                title={item.name}
+                              >
+                                {textColor === key && (
+                                  <span className="text-white text-xs font-bold font-sans">✓</span>
+                                )}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     ) : (

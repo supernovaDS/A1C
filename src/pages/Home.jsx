@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import {
   FileImage,
   FileText,
@@ -65,18 +66,34 @@ const categories = [
 ];
 
 export default function Home() {
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ConvertAll",
+    "url": "https://convertall.app",
+    "description": "Free online document and image conversion toolkit. Supports PDF, DOCX, XLSX, PPTX, JPG, PNG, WEBP and more.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div>
+      <SEO 
+        title="ConvertAll — Free Online Document & Image Converter"
+        description="ConvertAll is a free, professional document toolkit. Convert PDFs, images, Word, Excel, and PowerPoint files. Merge, split, compress, watermark, and protect PDFs — all in your browser."
+        path="/"
+        schema={homeSchema}
+      />
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="dot-grid-bg absolute inset-0 opacity-40" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-20 sm:pb-24">
           <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium">
-              <Zap className="w-3.5 h-3.5" />
-              Free & Open Source Document Toolkit
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-5">
               Convert, process
               <br className="hidden sm:block" />

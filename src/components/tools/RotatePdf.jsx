@@ -7,6 +7,8 @@ import { RotateCw, RotateCcw, Download, Loader2, AlertTriangle, Save } from 'luc
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
+import SEO from '../SEO';
+
 export default function RotatePdf() {
   const [file, setFile] = useState(null);
   const [thumbnails, setThumbnails] = useState([]); // { pageNum, dataUrl }
@@ -107,8 +109,28 @@ export default function RotatePdf() {
   // Check if any changes have actually been made
   const hasChanges = rotations.some(rot => rot % 360 !== 0);
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Rotate PDF Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Fix page orientation of PDF files instantly online. Rotate individual pages or the entire document. Free, secure browser-based tool.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Rotate PDF Pages Online - Fix Orientation"
+        description="Fix upside-down or landscape PDF pages instantly. Rotate individual pages or the entire document and save."
+        path="/rotate-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <RotateCw className="text-teal-500" /> Rotate PDF
       </h2>

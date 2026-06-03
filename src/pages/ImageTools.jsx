@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import {
   ArrowRight,
   Image as ImageIcon,
@@ -17,8 +18,28 @@ const tools = [
 ];
 
 export default function ImageTools() {
+  const imageSuiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Image Tools Suite — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Optimize, compress, crop, and convert images online between JPG, PNG, and WebP formats.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO 
+        title="Image Tools - Convert, Compress & Crop Images"
+        description="Optimize and convert your images. Compress image file sizes, convert between JPG, PNG, and WebP, or generate passport-sized photos online."
+        path="/image-tools"
+        schema={imageSuiteSchema}
+      />
       <div className="mb-10 animate-fade-in-up">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
           Image Tools

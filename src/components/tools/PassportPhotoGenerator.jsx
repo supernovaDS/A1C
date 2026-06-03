@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import FileUploader from '../shared/FileUploader';
 import { Camera, Download, Loader2, AlertTriangle, ArrowRight, X, FileArchive, Info, Settings, Move, RotateCw, ZoomIn, Sliders } from 'lucide-react';
+import SEO from '../SEO';
 
 const SIZES = {
   us: { name: 'United States (2" x 2")', widthMm: 50.8, heightMm: 50.8, ratio: 1 },
@@ -317,8 +318,28 @@ export default function PassportPhotoGenerator() {
   const previewWidth = 320;
   const previewHeight = Math.round(previewWidth / sizeRatio);
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Passport Photo Generator Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Create official digital passport photos and printable grids online. Crop and adjust image alignment for US, EU, UK, CA, and IN sizes.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100 animate-fade-in-up">
+      <SEO 
+        title="Passport Photo Generator - Create Print Sheets"
+        description="Generate compliant digital passport photos and print sheets online. Resize and crop to official specifications."
+        path="/passport-photo"
+        schema={seoSchema}
+      />
       <div className="mb-8 text-center">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4 shadow-sm">
             <Camera className="w-8 h-8" />

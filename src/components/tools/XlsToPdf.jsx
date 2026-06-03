@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
 import { FileSpreadsheet, Download, Loader2, AlertTriangle } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function ExcelToPdf() {
   const [file, setFile] = useState(null);
@@ -68,8 +69,28 @@ export default function ExcelToPdf() {
     }
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Excel to PDF Converter — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Convert Excel spreadsheets (XLS and XLSX) to high-quality PDF files online. Free, safe, and print-ready.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Convert Excel (XLSX) to PDF Online"
+        description="Convert Excel spreadsheets and worksheets to clean, print-ready PDF files with exact column layout."
+        path="/excel-to-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <FileSpreadsheet className="text-green-600" />
         Excel to PDF

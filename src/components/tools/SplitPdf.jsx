@@ -10,6 +10,8 @@ import { Scissors, FileDown, Loader2, AlertTriangle, FileArchive, FilePlus2, Che
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
+import SEO from '../SEO';
+
 export default function SplitPdf() {
   const [file, setFile] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);   // pdf-lib doc (for splitting)
@@ -183,8 +185,28 @@ export default function SplitPdf() {
     setError(null);
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Split PDF Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Extract specific pages from your PDF file or split the entire document into separate single-page PDFs online. Free, safe, and local browser-based.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Split PDF Pages Online - Extract PDF Pages"
+        description="Extract specific pages from your PDF file or split the entire document into separate single-page PDFs."
+        path="/split-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Scissors className="text-blue-500 transform -scale-x-100" /> Split PDF
       </h2>

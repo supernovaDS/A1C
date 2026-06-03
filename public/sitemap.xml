@@ -1,92 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://convertall.app/</loc>
+    <loc>https://a1c.onrender.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://convertall.app/pdf-tools</loc>
+    <loc>https://a1c.onrender.com/pdf-tools</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convertall.app/image-tools</loc>
+    <loc>https://a1c.onrender.com/image-tools</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convertall.app/ai-tools</loc>
+    <loc>https://a1c.onrender.com/ai-tools</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convertall.app/image-to-pdf</loc>
+    <loc>https://a1c.onrender.com/image-to-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/word-to-pdf</loc>
+    <loc>https://a1c.onrender.com/word-to-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/pdf-to-images</loc>
+    <loc>https://a1c.onrender.com/pdf-to-images</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/merge-pdf</loc>
+    <loc>https://a1c.onrender.com/merge-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/compress-pdf</loc>
+    <loc>https://a1c.onrender.com/compress-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/split-pdf</loc>
+    <loc>https://a1c.onrender.com/split-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/rotate-pdf</loc>
+    <loc>https://a1c.onrender.com/rotate-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/protect-pdf</loc>
+    <loc>https://a1c.onrender.com/protect-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/unlock-pdf</loc>
+    <loc>https://a1c.onrender.com/unlock-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/watermark-pdf</loc>
+    <loc>https://a1c.onrender.com/watermark-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/ppt-to-pdf</loc>
+    <loc>https://a1c.onrender.com/ppt-to-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/excel-to-pdf</loc>
+    <loc>https://a1c.onrender.com/excel-to-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/image-converter</loc>
+    <loc>https://a1c.onrender.com/image-converter</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://convertall.app/document-ai</loc>
+    <loc>https://a1c.onrender.com/compress-image</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://a1c.onrender.com/passport-photo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://a1c.onrender.com/document-ai</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

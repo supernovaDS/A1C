@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileUploader from '../shared/FileUploader';
 import { Minimize2, Download, Loader2, AlertTriangle, ArrowDown, Settings, FileText } from 'lucide-react';
+import SEO from '../SEO';
 
 export default function CompressPdf() {
   const [file, setFile] = useState(null);
@@ -64,8 +65,28 @@ export default function CompressPdf() {
     }
   };
 
+  const seoSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Compress PDF Online — ConvertAll",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Reduce your PDF file size online without losing visible quality. Set custom compression levels for standard or high compression.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <SEO 
+        title="Compress PDF Online - Reduce PDF File Size"
+        description="Shrink your PDF file size without losing visible quality. Perfect for email attachments and web upload limits."
+        path="/compress-pdf"
+        schema={seoSchema}
+      />
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Minimize2 className="text-orange-500" /> Compress PDF
       </h2>
